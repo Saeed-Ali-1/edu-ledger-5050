@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecture Finance & Settlement Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i class="fa-solid fa-scale-balanced"></i>
+        </div>
+        <div>
+          <h1>EduLedger <span class="badge badge-5050">50/50 Split</span></h1>
+          <p class="subtitle">Teacher & Assistant Revenue & Expense Tracker</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="month-selector-wrapper">
+          <i class="fa-regular fa-calendar-days"></i>
+          <input type="month" id="monthPicker" class="month-picker">
+        </div>
+        <button id="settingsBtn" class="icon-btn" title="Settings & Names">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+        <button id="themeToggleBtn" class="icon-btn" title="Toggle Light/Dark Theme">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Settlement Hero Banner -->
+      <section class="settlement-hero" id="settlementHero">
+        <div class="hero-content">
+          <div class="hero-header">
+            <span class="hero-badge"><i class="fa-solid fa-calculator"></i> End of Month Settlement</span>
+            <span id="settlementMonthLabel" class="hero-month">October 2026</span>
+          </div>
+          <div id="settlementStatusText" class="settlement-status">
+            Calculating balance...
+          </div>
+          <p id="settlementSubtext" class="settlement-subtext">
+            Based on 50/50 revenue split, out-of-pocket shared expenses, and individual cash draws.
+          </p>
+        </div>
+
+        <div class="settlement-cards-grid">
+          <!-- Teacher Net Summary -->
+          <div class="person-card teacher-card">
+            <div class="person-header">
+              <span class="person-avatar teacher-avatar"><i class="fa-solid fa-chalkboard-user"></i></span>
+              <div>
+                <h3 id="teacherNameDisplay">Teacher</h3>
+                <span class="role-tag">Primary Educator</span>
+              </div>
+            </div>
+            <div class="person-net">
+              <span class="net-label">Net Entitlement</span>
+              <div id="teacherNetVal" class="net-value">$0.00</div>
+            </div>
+            <div class="person-breakdown">
+              <div class="breakdown-row">
+                <span>Earned Share (50%):</span>
+                <strong id="teacherEarnedVal">$0.00</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Expense Credit:</span>
+                <strong id="teacherReimburseVal" class="text-success">+$0.00</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Cash Held/Drawn:</span>
+                <strong id="teacherDrawnVal" class="text-danger">-$0.00</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Brother Net Summary -->
+          <div class="person-card brother-card">
+            <div class="person-header">
+              <span class="person-avatar brother-avatar"><i class="fa-solid fa-user-gear"></i></span>
+              <div>
+                <h3 id="brotherNameDisplay">Assistant (Brother)</h3>
+                <span class="role-tag">Assistant</span>
+              </div>
+            </div>
+            <div class="person-net">
+              <span class="net-label">Net Entitlement</span>
+              <div id="brotherNetVal" class="net-value">$0.00</div>
+            </div>
+            <div class="person-breakdown">
+              <div class="breakdown-row">
+                <span>Earned Share (50%):</span>
+                <strong id="brotherEarnedVal">$0.00</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Expense Credit:</span>
+                <strong id="brotherReimburseVal" class="text-success">+$0.00</strong>
+              </div>
+              <div class="breakdown-row">
+                <span>Cash Held/Drawn:</span>
+                <strong id="brotherDrawnVal" class="text-danger">-$0.00</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- KPI Summary Cards -->
+      <section class="kpi-grid">
+        <div class="kpi-card revenue-kpi">
+          <div class="kpi-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="kpi-details">
+            <span class="kpi-title">Total Lectures Revenue</span>
+            <h2 id="kpiTotalRevenue">$0.00</h2>
+            <span id="kpiLectureCount" class="kpi-sub">0 lectures logged</span>
+          </div>
+        </div>
+
+        <div class="kpi-card expense-kpi">
+          <div class="kpi-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="kpi-details">
+            <span class="kpi-title">Shared Expenses</span>
+            <h2 id="kpiTotalExpenses">$0.00</h2>
+            <span id="kpiExpenseSub" class="kpi-sub">50/50 split cost</span>
+          </div>
+        </div>
+
+        <div class="kpi-card draws-kpi">
+          <div class="kpi-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <div class="kpi-details">
+            <span class="kpi-title">Total Cash Drawn</span>
+            <h2 id="kpiTotalDraws">$0.00</h2>
+            <span id="kpiDrawsSub" class="kpi-sub">Teacher + Brother advances</span>
+          </div>
+        </div>
+
+        <div class="kpi-card vault-kpi">
+          <div class="kpi-icon"><i class="fa-solid fa-vault"></i></div>
+          <div class="kpi-details">
+            <span class="kpi-title">Shared Cash Pool</span>
+            <h2 id="kpiPoolCash">$0.00</h2>
+            <span class="kpi-sub">Uncollected / Cash in Vault</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Action Buttons & Quick Logging -->
+      <section class="actions-section">
+        <div class="action-buttons-group">
+          <button class="btn btn-primary" id="addIncomeBtn">
+            <i class="fa-solid fa-plus-circle"></i> Log Lecture Income
+          </button>
+          <button class="btn btn-warning" id="addExpenseBtn">
+            <i class="fa-solid fa-receipt"></i> Log Shared Expense
+          </button>
+          <button class="btn btn-purple" id="addDrawBtn">
+            <i class="fa-solid fa-hand-holding-dollar"></i> Log Cash Draw
+          </button>
+        </div>
+
+        <div class="secondary-actions">
+          <button class="btn btn-outline" id="exportDataBtn">
+            <i class="fa-solid fa-file-export"></i> Export CSV
+          </button>
+          <button class="btn btn-outline-danger" id="resetDataBtn">
+            <i class="fa-solid fa-rotate-left"></i> Reset Month
+          </button>
+        </div>
+      </section>
+
+      <!-- Ledger & Transactions View -->
+      <section class="ledger-section">
+        <div class="ledger-header">
+          <div class="ledger-title-group">
+            <h2>Transaction History</h2>
+            <span id="transactionCountBadge" class="count-badge">0 items</span>
+          </div>
+          <div class="table-filters">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="searchInput" placeholder="Search entries...">
+            </div>
+            <select id="typeFilter" class="select-filter">
+              <option value="ALL">All Types</option>
+              <option value="INCOME">Lecture Income</option>
+              <option value="EXPENSE">Shared Expense</option>
+              <option value="DRAW">Personal Draw</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table class="ledger-table" id="ledgerTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Category / Description</th>
+                <th>Type</th>
+                <th>Total Amount</th>
+                <th>Paid / Collected By</th>
+                <th>Split / Allocation</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="ledgerTableBody">
+              <!-- Rendered dynamically via JavaScript -->
+            </tbody>
+          </table>
+          <div id="emptyState" class="empty-state hidden">
+            <i class="fa-solid fa-folder-open empty-icon"></i>
+            <h3>No Transactions Found</h3>
+            <p>Add a lecture income, shared expense, or cash draw to start calculating balances.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>EduLedger 50/50 • Designed for seamless monthly settlement between Teacher & Assistant</p>
+    </footer>
+  </div>
+
+  <!-- Modal: Log Lecture Income -->
+  <div class="modal-overlay hidden" id="incomeModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-graduation-cap text-success"></i> Log Lecture Income</h3>
+        <button class="close-btn" data-close="incomeModal">&times;</button>
+      </div>
+      <form id="incomeForm">
+        <div class="form-group">
+          <label for="incDate">Date</label>
+          <input type="date" id="incDate" required>
+        </div>
+        <div class="form-group">
+          <label for="incTitle">Lecture Title / Student Group</label>
+          <input type="text" id="incTitle" placeholder="e.g. Physics Grade 12 - Group A" required>
+        </div>
+        <div class="form-group">
+          <label for="incAmount">Total Revenue Received (<span class="currSym">$</span>)</label>
+          <input type="number" id="incAmount" step="0.01" min="0.01" placeholder="e.g. 200" required>
+        </div>
+        <div class="form-group">
+          <label for="incCollector">Who Collected / Holds the Cash?</label>
+          <select id="incCollector" required>
+            <option value="TEACHER">Teacher (Holds cash)</option>
+            <option value="BROTHER">Assistant Brother (Holds cash)</option>
+            <option value="POOL">Shared Cash Box / Vault</option>
+          </select>
+        </div>
+        <div class="split-info-box">
+          <i class="fa-solid fa-circle-info"></i>
+          This amount will be split <strong>50% for Teacher</strong> and <strong>50% for Assistant</strong> automatically.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="incomeModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Income</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Log Shared Expense -->
+  <div class="modal-overlay hidden" id="expenseModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-receipt text-warning"></i> Log Shared Work Expense</h3>
+        <button class="close-btn" data-close="expenseModal">&times;</button>
+      </div>
+      <form id="expenseForm">
+        <div class="form-group">
+          <label for="expDate">Date</label>
+          <input type="date" id="expDate" required>
+        </div>
+        <div class="form-group">
+          <label for="expTitle">Expense Description</label>
+          <input type="text" id="expTitle" placeholder="e.g. Taxi transportation to Center, Printouts" required>
+        </div>
+        <div class="form-group">
+          <label for="expCategory">Category</label>
+          <select id="expCategory">
+            <option value="Transportation">Transportation / Taxi</option>
+            <option value="Printing & Materials">Printing & Materials</option>
+            <option value="Snacks & Coffee">Snacks & Refreshments</option>
+            <option value="Hall Rental">Hall Rental / Center Fee</option>
+            <option value="Other">Other Work Expense</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="expAmount">Total Amount Spent (<span class="currSym">$</span>)</label>
+          <input type="number" id="expAmount" step="0.01" min="0.01" placeholder="e.g. 30" required>
+        </div>
+        <div class="form-group">
+          <label for="expPayer">Who Paid Out-of-Pocket?</label>
+          <select id="expPayer" required>
+            <option value="TEACHER">Teacher Paid</option>
+            <option value="BROTHER">Assistant Brother Paid</option>
+            <option value="POOL">Paid from Shared Cash Pool</option>
+          </select>
+        </div>
+        <div class="split-info-box warning">
+          <i class="fa-solid fa-hand-holding-hand"></i>
+          Shared expenses are divided <strong>50/50</strong>. The person who paid out-of-pocket gets credited 50% from the other's earnings.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="expenseModal">Cancel</button>
+          <button type="submit" class="btn btn-warning">Save Expense</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Log Cash Draw -->
+  <div class="modal-overlay hidden" id="drawModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-hand-holding-dollar text-purple"></i> Log Personal Cash Draw</h3>
+        <button class="close-btn" data-close="drawModal">&times;</button>
+      </div>
+      <form id="drawForm">
+        <div class="form-group">
+          <label for="drawDate">Date</label>
+          <input type="date" id="drawDate" required>
+        </div>
+        <div class="form-group">
+          <label for="drawPerson">Who is taking the cash draw?</label>
+          <select id="drawPerson" required>
+            <option value="TEACHER">Teacher</option>
+            <option value="BROTHER">Assistant Brother</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="drawAmount">Amount Taken (<span class="currSym">$</span>)</label>
+          <input type="number" id="drawAmount" step="0.01" min="0.01" placeholder="e.g. 50" required>
+        </div>
+        <div class="form-group">
+          <label for="drawSource">Source of Cash</label>
+          <select id="drawSource" required>
+            <option value="POOL">From Shared Cash Pool / Revenue</option>
+            <option value="TEACHER">Direct from Teacher's hand</option>
+            <option value="BROTHER">Direct from Brother's hand</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="drawNote">Note / Reason (Optional)</label>
+          <input type="text" id="drawNote" placeholder="e.g. Personal advance for groceries">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="drawModal">Cancel</button>
+          <button type="submit" class="btn btn-purple">Save Draw</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Settings & Names -->
+  <div class="modal-overlay hidden" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-sliders"></i> App Settings</h3>
+        <button class="close-btn" data-close="settingsModal">&times;</button>
+      </div>
+      <form id="settingsForm">
+        <div class="form-group">
+          <label for="cfgTeacherName">Teacher Display Name</label>
+          <input type="text" id="cfgTeacherName" value="Teacher" required>
+        </div>
+        <div class="form-group">
+          <label for="cfgBrotherName">Assistant Brother Display Name</label>
+          <input type="text" id="cfgBrotherName" value="Assistant Brother" required>
+        </div>
+        <div class="form-group">
+          <label for="cfgCurrency">Currency Symbol</label>
+          <input type="text" id="cfgCurrency" value="$" placeholder="e.g. $, €, EGP, SAR, ₹" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" data-close="settingsModal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Settings</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
