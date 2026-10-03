@@ -1,15 +1,182 @@
 /**
- * EduLedger 50/50 - Teacher & Assistant Finance App
- * Accounting Engine, UI Controller, and Storage Engine
+ * EduLedger 50/50 - Teacher & Youssef Ledger App
+ * Accounting Engine, i18n Localization (Arabic & English), UI Controller
  */
+
+// Internationalization Dictionary (Arabic & English)
+const I18N = {
+  ar: {
+    splitBadge: 'مناصفة 50/50',
+    subtitle: 'حاسبة إيرادات الحصص والمصروفات بين الأستاذ ويوسف',
+    teacherRole: 'المعلم الرئيسي',
+    brotherRole: 'يوسف',
+    settlementTitle: 'التصفية الشهرية',
+    settlementSubtext: 'بناءً على تقسيم الإيراد 50/50 والمصروفات المشتركة والمسحوبات الشخصية.',
+    netEntitlement: 'الصافي المستحق',
+    earnedShare: 'حصة الإيراد (50%):',
+    expenseCredit: 'مستحق المصروفات:',
+    cashDrawn: 'المقبوض/المسحوب:',
+    kpiTotalRevenue: 'إجمالي إيراد الحصص',
+    kpiTotalExpenses: 'المصروفات المشتركة',
+    kpiTotalDraws: 'إجمالي المسحوبات',
+    kpiPoolCash: 'الخزينة المشتركة',
+    poolSub: 'المتبقي بالخزنة المباشرة',
+    btnLogIncome: 'تسجيل إيراد حصة',
+    btnLogExpense: 'تسجيل مصروف مشترك',
+    btnLogDraw: 'تسجيل مسحوبات شخصية',
+    btnExport: 'تصدير ملف Excel/CSV',
+    btnResetMonth: 'إعادة ضبط الشهر',
+    ledgerTitle: 'سجل المعاملات اليومية',
+    filterAll: 'كل الأنواع',
+    filterIncome: 'إيراد حصة',
+    filterExpense: 'مصروف مشترك',
+    filterDraw: 'مسحوبات شخصية',
+    thDate: 'التاريخ',
+    thTitle: 'البيان / الوصف',
+    thType: 'النوع',
+    thAmount: 'المبلغ الكلي',
+    thPerson: 'الدافع / المستلم',
+    thSplit: 'التقسيم',
+    thActions: 'إجراءات',
+    emptyTitle: 'لا توجد معاملات مسجلة',
+    emptySub: 'أضف إيراد حصة أو مصروف مواصلات أو مسحوبات للبدء في حساب التصفية.',
+    footerText: 'EduLedger 50/50 • نظام التصفية المالية وحساب الأرباح بين الأستاذ ويوسف',
+    
+    // Modals
+    modalIncomeTitle: 'تسجيل إيراد حصة',
+    modalExpenseTitle: 'تسجيل مصروف مشترك (مواصلات / ورق)',
+    modalDrawTitle: 'تسجيل مسحوبات شخصية',
+    modalSettingsTitle: 'إعدادات التطبيق والأسماء',
+    lblDate: 'التاريخ',
+    lblLectureTitle: 'اسم الحصة / المجموعة',
+    lblAmount: 'إجمالي المبلغ المستلم',
+    lblCollector: 'من استلم / يحتفظ بالكاش؟',
+    optPool: 'الخزينة المشتركة',
+    infoSplitIncome: 'يتم تقسيم الإيراد تلقائياً <strong>50% للأستاذ</strong> و <strong>50% ليوسف</strong>.',
+    btnCancel: 'إلغاء',
+    btnSave: 'حفظ',
+    btnSaveSettings: 'حفظ الإعدادات',
+    
+    lblExpenseTitle: 'وصف المصروف',
+    lblCategory: 'القسم',
+    catTransport: 'مواصلات / تاكسي / بنزين',
+    catPrinting: 'طباعة وتصوير مذكرات',
+    catSnacks: 'مشروبات ومأكولات',
+    catHall: 'إيجار قاعة / نسبة السنتر',
+    catOther: 'مصروفات عمل أخرى',
+    lblAmountSpent: 'المبلغ المدفوع',
+    lblPayer: 'من دفع من جيبه الشخصي؟',
+    optExpPool: 'دُفع من الخزينة المشتركة',
+    infoSplitExpense: 'المصروفات مقسمة <strong>50/50</strong>. يعوض من دفع من جيبه بنسبة 50% من حصة الطرف الآخر.',
+    
+    lblDrawPerson: 'من قام بالسحب الشخصي؟',
+    lblDrawAmount: 'المبلغ المسحوب',
+    lblDrawSource: 'مصدر المبلغ المسحوب',
+    optDrawPool: 'من الخزينة المشتركة / الإيراد',
+    lblDrawNote: 'ملاحظة / السبب (اختياري)',
+    
+    lblTeacherName: 'اسم المعلم',
+    lblBrotherName: 'اسم الشريك (يوسف)',
+    lblCurrency: 'رمز العملة',
+    
+    // Dynamic text
+    typeIncome: 'إيراد',
+    typeExpense: 'مصروف',
+    typeDraw: 'مسحوبات',
+    settledText: 'تمت التصفية بالكامل!',
+    bothPositiveText: 'مستحقات التوزيع الصافية من أرباح الشهر:',
+    owesText: 'ينبغي على {payer} دفع مبلغ {amount} إلى {payee}'
+  },
+  en: {
+    splitBadge: '50/50 Split',
+    subtitle: 'Lecture revenue & expense tracker for Teacher & Youssef',
+    teacherRole: 'Primary Educator',
+    brotherRole: 'Youssef',
+    settlementTitle: 'End of Month Settlement',
+    settlementSubtext: 'Based on 50/50 revenue split, out-of-pocket shared expenses, and individual cash draws.',
+    netEntitlement: 'Net Entitlement',
+    earnedShare: 'Earned Share (50%):',
+    expenseCredit: 'Expense Credit:',
+    cashDrawn: 'Cash Held/Drawn:',
+    kpiTotalRevenue: 'Total Lectures Revenue',
+    kpiTotalExpenses: 'Shared Expenses',
+    kpiTotalDraws: 'Total Cash Drawn',
+    kpiPoolCash: 'Shared Cash Pool',
+    poolSub: 'Vault / Uncollected Cash',
+    btnLogIncome: 'Log Lecture Income',
+    btnLogExpense: 'Log Shared Expense',
+    btnLogDraw: 'Log Cash Draw',
+    btnExport: 'Export CSV',
+    btnResetMonth: 'Reset Month',
+    ledgerTitle: 'Transaction History',
+    filterAll: 'All Types',
+    filterIncome: 'Lecture Income',
+    filterExpense: 'Shared Expense',
+    filterDraw: 'Personal Draw',
+    thDate: 'Date',
+    thTitle: 'Category / Description',
+    thType: 'Type',
+    thAmount: 'Total Amount',
+    thPerson: 'Paid / Collected By',
+    thSplit: 'Split / Allocation',
+    thActions: 'Actions',
+    emptyTitle: 'No Transactions Found',
+    emptySub: 'Add a lecture income, shared expense, or cash draw to calculate balances.',
+    footerText: 'EduLedger 50/50 • Designed for seamless monthly settlement between Teacher & Youssef',
+    
+    modalIncomeTitle: 'Log Lecture Income',
+    modalExpenseTitle: 'Log Shared Work Expense',
+    modalDrawTitle: 'Log Personal Cash Draw',
+    modalSettingsTitle: 'App Settings & Names',
+    lblDate: 'Date',
+    lblLectureTitle: 'Lecture Title / Student Group',
+    lblAmount: 'Total Revenue Received',
+    lblCollector: 'Who Collected / Holds Cash?',
+    optPool: 'Shared Cash Box / Vault',
+    infoSplitIncome: 'This amount will be split <strong>50% for Teacher</strong> and <strong>50% for Youssef</strong> automatically.',
+    btnCancel: 'Cancel',
+    btnSave: 'Save',
+    btnSaveSettings: 'Save Settings',
+    
+    lblExpenseTitle: 'Expense Description',
+    lblCategory: 'Category',
+    catTransport: 'Transportation / Taxi',
+    catPrinting: 'Printing & Materials',
+    catSnacks: 'Snacks & Coffee',
+    catHall: 'Hall Rental / Center Fee',
+    catOther: 'Other Work Expense',
+    lblAmountSpent: 'Total Amount Spent',
+    lblPayer: 'Who Paid Out-of-Pocket?',
+    optExpPool: 'Paid from Shared Cash Pool',
+    infoSplitExpense: 'Shared expenses are divided <strong>50/50</strong>. The person who paid gets credited 50%.',
+    
+    lblDrawPerson: 'Who is taking the cash draw?',
+    lblDrawAmount: 'Amount Taken',
+    lblDrawSource: 'Source of Cash',
+    optDrawPool: 'From Shared Cash Pool / Revenue',
+    lblDrawNote: 'Note / Reason (Optional)',
+    
+    lblTeacherName: 'Teacher Display Name',
+    lblBrotherName: 'Youssef Display Name',
+    lblCurrency: 'Currency Symbol',
+    
+    typeIncome: 'Income',
+    typeExpense: 'Expense',
+    typeDraw: 'Draw',
+    settledText: 'Month Completely Settled!',
+    bothPositiveText: 'Net cash payout breakdown from earnings:',
+    owesText: '{payer} owes {payee} {amount}'
+  }
+};
 
 // Global State
 const state = {
   settings: {
-    teacherName: 'Teacher',
-    brotherName: 'Assistant Brother',
-    currency: '$',
-    theme: 'dark'
+    teacherName: 'الأستاذ',
+    brotherName: 'يوسف',
+    currency: 'ج.م',
+    theme: 'dark',
+    lang: 'ar'
   },
   currentMonth: '', // YYYY-MM
   transactions: [],
@@ -17,63 +184,63 @@ const state = {
   searchQuery: ''
 };
 
-// Initial Demo Seed Data
+// Initial Demo Data
 const DEFAULT_DEMO_DATA = [
   {
     id: 'tx-101',
     date: '2026-10-01',
     month: '2026-10',
     type: 'INCOME',
-    title: 'Physics Grade 12 - Chapter 3 Lecture',
-    amount: 300,
+    title: 'فيزياء الثانوية العامة - مراجعة الفصل الثالث',
+    amount: 500,
     person: 'TEACHER', // Teacher collected cash
-    category: 'Lecture Income',
-    note: 'Collected cash directly from center'
+    category: 'إيراد حصة',
+    note: 'استلم الأستاذ كاش السنتر'
   },
   {
     id: 'tx-102',
     date: '2026-10-02',
     month: '2026-10',
     type: 'EXPENSE',
-    title: 'Uber Taxi to Educational Center',
-    amount: 24,
-    person: 'BROTHER', // Brother paid out-of-pocket
+    title: 'تاكسي مواصلات السنتر ذهاب وإياد',
+    amount: 40,
+    person: 'BROTHER', // Youssef paid out of pocket
     category: 'Transportation',
-    note: 'Round trip taxi for both of us'
+    note: 'دفع يوسف من جيبه'
   },
   {
     id: 'tx-103',
     date: '2026-10-03',
     month: '2026-10',
     type: 'INCOME',
-    title: 'Chemistry Organic Review Lecture',
-    amount: 250,
-    person: 'POOL', // Money put into shared cash box
-    category: 'Lecture Income',
-    note: 'Paid into shared box'
+    title: 'كيمياء عضوي - مجموعة المتفوقين',
+    amount: 400,
+    person: 'POOL', // Money put into shared cash vault
+    category: 'إيراد حصة',
+    note: 'وضعت في الخزينة المشتركة'
   },
   {
     id: 'tx-104',
     date: '2026-10-04',
     month: '2026-10',
     type: 'EXPENSE',
-    title: 'Exam Sheets Printing & Worksheets',
-    amount: 16,
-    person: 'TEACHER', // Teacher paid out-of-pocket
+    title: 'تصوير واختبارات المذكرات',
+    amount: 30,
+    person: 'TEACHER', // Teacher paid out of pocket
     category: 'Printing & Materials',
-    note: '100 copies of quiz papers'
+    note: 'دفع الأستاذ للمكتبة'
   },
   {
     id: 'tx-105',
     date: '2026-10-04',
     month: '2026-10',
     type: 'DRAW',
-    title: 'Personal Cash Draw for Assistant',
-    amount: 50,
-    person: 'BROTHER', // Brother took draw
+    title: 'مسحوبات شخصية ليوسف',
+    amount: 100,
+    person: 'BROTHER', // Youssef took draw
     source: 'POOL',
     category: 'Personal Draw',
-    note: 'Personal advance'
+    note: 'مصروف شخصي'
   }
 ];
 
@@ -130,14 +297,13 @@ function setDefaultMonth() {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, '0');
   
-  // Default to 2026-10 if demo data exists for 2026-10
   const hasOctober2026 = state.transactions.some(t => t.month === '2026-10');
   state.currentMonth = hasOctober2026 ? '2026-10' : `${year}-${month}`;
   
   monthPicker.value = state.currentMonth;
 }
 
-// Accounting Engine Calculation
+// Accounting Engine Calculation (50/50 Split Logic)
 function calculateAccounting(month) {
   const monthTx = state.transactions.filter(t => t.month === month);
 
@@ -185,8 +351,7 @@ function calculateAccounting(month) {
   const teacherEarned = totalRevenue * 0.5;
   const brotherEarned = totalRevenue * 0.5;
 
-  // Shared Expenses Split: Each person owes 50% of out-of-pocket expenses
-  // Net expense reimbursement credit for paying out of pocket:
+  // Shared Expenses Split
   const teacherExpCredit = (teacherExpensePaid - brotherExpensePaid) * 0.5;
   const brotherExpCredit = (brotherExpensePaid - teacherExpensePaid) * 0.5;
 
@@ -220,18 +385,60 @@ function calculateAccounting(month) {
   };
 }
 
-// Render UI
+// Render UI with i18n
 function render() {
+  applyLanguageUI();
   updateSettingsUI();
   updateSummaryAndHero();
   renderLedgerTable();
 }
 
+function applyLanguageUI() {
+  const lang = state.settings.lang || 'ar';
+  const dict = I18N[lang];
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('lang', lang);
+
+  document.getElementById('langLabel').textContent = lang === 'ar' ? 'English' : 'العربية';
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) {
+      el.innerHTML = dict[key];
+    }
+  });
+}
+
 function updateSettingsUI() {
   const curr = state.settings.currency;
+  const tName = state.settings.teacherName;
+  const bName = state.settings.brotherName;
+
   document.querySelectorAll('.currSym').forEach(el => el.textContent = curr);
-  document.getElementById('teacherNameDisplay').textContent = state.settings.teacherName;
-  document.getElementById('brotherNameDisplay').textContent = state.settings.brotherName;
+  document.getElementById('teacherNameDisplay').textContent = tName;
+  document.getElementById('brotherNameDisplay').textContent = bName;
+
+  // Update option labels in modals dynamically with names
+  const lang = state.settings.lang || 'ar';
+  if (lang === 'ar') {
+    document.getElementById('optIncTeacher').textContent = `${tName} (احتفظ بالكاش)`;
+    document.getElementById('optIncBrother').textContent = `${bName} (احتفظ بالكاش)`;
+    document.getElementById('optExpTeacher').textContent = `${tName} دفع من جيبه`;
+    document.getElementById('optExpBrother').textContent = `${bName} دفع من جيبه`;
+    document.getElementById('optDrawTeacher').textContent = tName;
+    document.getElementById('optDrawBrother').textContent = bName;
+    document.getElementById('optDrawFromTeacher').textContent = `من يد ${tName} مباشرة`;
+    document.getElementById('optDrawFromBrother').textContent = `من يد ${bName} مباشرة`;
+  } else {
+    document.getElementById('optIncTeacher').textContent = `${tName} (holds cash)`;
+    document.getElementById('optIncBrother').textContent = `${bName} (holds cash)`;
+    document.getElementById('optExpTeacher').textContent = `${tName} Paid out-of-pocket`;
+    document.getElementById('optExpBrother').textContent = `${bName} Paid out-of-pocket`;
+    document.getElementById('optDrawTeacher').textContent = tName;
+    document.getElementById('optDrawBrother').textContent = bName;
+    document.getElementById('optDrawFromTeacher').textContent = `Directly from ${tName}'s hand`;
+    document.getElementById('optDrawFromBrother').textContent = `Directly from ${bName}'s hand`;
+  }
 }
 
 function updateSummaryAndHero() {
@@ -239,36 +446,39 @@ function updateSummaryAndHero() {
   const curr = state.settings.currency;
   const tName = state.settings.teacherName;
   const bName = state.settings.brotherName;
+  const lang = state.settings.lang || 'ar';
+  const dict = I18N[lang];
 
   // Month Format
   const [yr, mo] = state.currentMonth.split('-');
-  const monthName = new Date(parseInt(yr), parseInt(mo) - 1, 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+  const monthDate = new Date(parseInt(yr), parseInt(mo) - 1, 1);
+  const monthName = monthDate.toLocaleString(lang === 'ar' ? 'ar-EG' : 'default', { month: 'long', year: 'numeric' });
   document.getElementById('settlementMonthLabel').textContent = monthName;
 
   // KPI Grid
-  document.getElementById('kpiTotalRevenue').textContent = `${curr}${acc.totalRevenue.toFixed(2)}`;
-  document.getElementById('kpiLectureCount').textContent = `${acc.lectureCount} lectures logged`;
+  document.getElementById('kpiTotalRevenue').textContent = `${acc.totalRevenue.toFixed(2)} ${curr}`;
+  document.getElementById('kpiLectureCount').textContent = lang === 'ar' ? `${acc.lectureCount} حصة مسجلة` : `${acc.lectureCount} lectures logged`;
 
-  document.getElementById('kpiTotalExpenses').textContent = `${curr}${acc.totalExpenses.toFixed(2)}`;
-  document.getElementById('kpiExpenseSub').textContent = `50/50 split (${curr}${(acc.totalExpenses * 0.5).toFixed(2)} each)`;
+  document.getElementById('kpiTotalExpenses').textContent = `${acc.totalExpenses.toFixed(2)} ${curr}`;
+  document.getElementById('kpiExpenseSub').textContent = lang === 'ar' ? `مناصفة 50/50 (${(acc.totalExpenses * 0.5).toFixed(2)} ${curr} لكل منهما)` : `50/50 split (${(acc.totalExpenses * 0.5).toFixed(2)} ${curr} each)`;
 
-  document.getElementById('kpiTotalDraws').textContent = `${curr}${acc.totalDraws.toFixed(2)}`;
-  document.getElementById('kpiPoolCash').textContent = `${curr}${acc.poolCash.toFixed(2)}`;
+  document.getElementById('kpiTotalDraws').textContent = `${acc.totalDraws.toFixed(2)} ${curr}`;
+  document.getElementById('kpiPoolCash').textContent = `${acc.poolCash.toFixed(2)} ${curr}`;
 
   // Person Cards
-  document.getElementById('teacherNetVal').textContent = `${curr}${acc.teacherNet.toFixed(2)}`;
+  document.getElementById('teacherNetVal').textContent = `${acc.teacherNet.toFixed(2)} ${curr}`;
   document.getElementById('teacherNetVal').className = `net-value ${acc.teacherNet >= 0 ? 'text-success' : 'text-danger'}`;
-  document.getElementById('teacherEarnedVal').textContent = `${curr}${acc.teacherEarned.toFixed(2)}`;
-  document.getElementById('teacherReimburseVal').textContent = `${acc.teacherExpCredit >= 0 ? '+' : ''}${curr}${acc.teacherExpCredit.toFixed(2)}`;
-  document.getElementById('teacherDrawnVal').textContent = `-${curr}${acc.teacherCashHeld.toFixed(2)}`;
+  document.getElementById('teacherEarnedVal').textContent = `${acc.teacherEarned.toFixed(2)} ${curr}`;
+  document.getElementById('teacherReimburseVal').textContent = `${acc.teacherExpCredit >= 0 ? '+' : ''}${acc.teacherExpCredit.toFixed(2)} ${curr}`;
+  document.getElementById('teacherDrawnVal').textContent = `-${acc.teacherCashHeld.toFixed(2)} ${curr}`;
 
-  document.getElementById('brotherNetVal').textContent = `${curr}${acc.brotherNet.toFixed(2)}`;
+  document.getElementById('brotherNetVal').textContent = `${acc.brotherNet.toFixed(2)} ${curr}`;
   document.getElementById('brotherNetVal').className = `net-value ${acc.brotherNet >= 0 ? 'text-success' : 'text-danger'}`;
-  document.getElementById('brotherEarnedVal').textContent = `${curr}${acc.brotherEarned.toFixed(2)}`;
-  document.getElementById('brotherReimburseVal').textContent = `${acc.brotherExpCredit >= 0 ? '+' : ''}${curr}${acc.brotherExpCredit.toFixed(2)}`;
-  document.getElementById('brotherDrawnVal').textContent = `-${curr}${acc.brotherCashHeld.toFixed(2)}`;
+  document.getElementById('brotherEarnedVal').textContent = `${acc.brotherEarned.toFixed(2)} ${curr}`;
+  document.getElementById('brotherReimburseVal').textContent = `${acc.brotherExpCredit >= 0 ? '+' : ''}${acc.brotherExpCredit.toFixed(2)} ${curr}`;
+  document.getElementById('brotherDrawnVal').textContent = `-${acc.brotherCashHeld.toFixed(2)} ${curr}`;
 
-  // Settlement Hero Text Calculation
+  // Settlement Status Banner Logic
   const statusEl = document.getElementById('settlementStatusText');
   const subtextEl = document.getElementById('settlementSubtext');
 
@@ -276,22 +486,35 @@ function updateSummaryAndHero() {
   const bNet = acc.brotherNet;
 
   if (Math.abs(tNet) < 0.01 && Math.abs(bNet) < 0.01) {
-    statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-circle-check"></i> Month Completely Settled!</span>`;
-    subtextEl.textContent = `All earnings, expenses, and draws are perfectly balanced for ${monthName}.`;
+    statusEl.innerHTML = `<span class="text-success"><i class="fa-solid fa-circle-check"></i> ${dict.settledText}</span>`;
+    subtextEl.textContent = lang === 'ar' ? `جميع الأرباح والمصروفات مسواة تماماً لشهر ${monthName}.` : `All earnings, expenses, and draws are perfectly balanced for ${monthName}.`;
   } else if (tNet >= 0 && bNet >= 0) {
-    statusEl.innerHTML = `Payout: <span class="text-success">${tName}</span> gets <strong>${curr}${tNet.toFixed(2)}</strong> &bull; <span class="text-purple">${bName}</span> gets <strong>${curr}${bNet.toFixed(2)}</strong>`;
-    subtextEl.textContent = `Both accounts have positive balances to collect from available revenue.`;
+    if (lang === 'ar') {
+      statusEl.innerHTML = `مستحق الصرف: <span class="text-success">${tName}</span> له <strong>${tNet.toFixed(2)} ${curr}</strong> &bull; <span class="text-purple">${bName}</span> له <strong>${bNet.toFixed(2)} ${curr}</strong>`;
+    } else {
+      statusEl.innerHTML = `Payout: <span class="text-success">${tName}</span> gets <strong>${tNet.toFixed(2)} ${curr}</strong> &bull; <span class="text-purple">${bName}</span> gets <strong>${bNet.toFixed(2)} ${curr}</strong>`;
+    }
+    subtextEl.textContent = lang === 'ar' ? `كلا الحسابين لهما رصيد مستحق للصرف من إيرادات الشهر.` : `Both accounts have positive balances to collect from available revenue.`;
   } else if (tNet < 0 && bNet > 0) {
     const oweAmt = Math.abs(tNet);
-    statusEl.innerHTML = `<span class="text-danger">${tName} owes ${bName}</span> <strong class="text-success">${curr}${oweAmt.toFixed(2)}</strong>`;
-    subtextEl.textContent = `${tName} has collected/drawn more cash than their 50% share and needs to pay ${bName}.`;
+    if (lang === 'ar') {
+      statusEl.innerHTML = `<span class="text-danger">يدفع ${tName} إلى ${bName}</span> <strong class="text-success">${oweAmt.toFixed(2)} ${curr}</strong>`;
+      subtextEl.textContent = `احتفظ ${tName} بمبالغ أكثر من حصته وينبغي تحويل ${oweAmt.toFixed(2)} ${curr} إلى ${bName}.`;
+    } else {
+      statusEl.innerHTML = `<span class="text-danger">${tName} owes ${bName}</span> <strong class="text-success">${curr}${oweAmt.toFixed(2)}</strong>`;
+      subtextEl.textContent = `${tName} collected/drew more cash than their share and needs to pay ${bName}.`;
+    }
   } else if (bNet < 0 && tNet > 0) {
     const oweAmt = Math.abs(bNet);
-    statusEl.innerHTML = `<span class="text-purple">${bName} owes ${tName}</span> <strong class="text-success">${curr}${oweAmt.toFixed(2)}</strong>`;
-    subtextEl.textContent = `${bName} has collected/drawn more cash than their 50% share and needs to pay ${tName}.`;
+    if (lang === 'ar') {
+      statusEl.innerHTML = `<span class="text-purple">يدفع ${bName} إلى ${tName}</span> <strong class="text-success">${oweAmt.toFixed(2)} ${curr}</strong>`;
+      subtextEl.textContent = `احتفظ ${bName} بمبالغ أكثر من حصته وينبغي تحويل ${oweAmt.toFixed(2)} ${curr} إلى ${tName}.`;
+    } else {
+      statusEl.innerHTML = `<span class="text-purple">${bName} owes ${tName}</span> <strong class="text-success">${curr}${oweAmt.toFixed(2)}</strong>`;
+      subtextEl.textContent = `${bName} collected/drew more cash than their share and needs to pay ${tName}.`;
+    }
   } else {
-    statusEl.innerHTML = `Settlement: ${tName}: ${curr}${tNet.toFixed(2)} | ${bName}: ${curr}${bNet.toFixed(2)}`;
-    subtextEl.textContent = `Final calculated balance for ${monthName}.`;
+    statusEl.innerHTML = `${tName}: ${tNet.toFixed(2)} ${curr} | ${bName}: ${bNet.toFixed(2)} ${curr}`;
   }
 }
 
@@ -299,10 +522,11 @@ function renderLedgerTable() {
   const tbody = document.getElementById('ledgerTableBody');
   const emptyState = document.getElementById('emptyState');
   const countBadge = document.getElementById('transactionCountBadge');
+  const lang = state.settings.lang || 'ar';
+  const dict = I18N[lang];
 
   const monthTx = state.transactions.filter(t => t.month === state.currentMonth);
   
-  // Apply Search & Type Filters
   const filtered = monthTx.filter(t => {
     const matchesType = state.filterType === 'ALL' || t.type === state.filterType;
     const q = state.searchQuery.toLowerCase();
@@ -313,10 +537,9 @@ function renderLedgerTable() {
     return matchesType && matchesSearch;
   });
 
-  // Sort newest first
   filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-  countBadge.textContent = `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
+  countBadge.textContent = lang === 'ar' ? `${filtered.length} معاملة` : `${filtered.length} item${filtered.length !== 1 ? 's' : ''}`;
 
   if (filtered.length === 0) {
     tbody.innerHTML = '';
@@ -337,17 +560,18 @@ function renderLedgerTable() {
     const amt = parseFloat(t.amount).toFixed(2);
 
     if (t.type === 'INCOME') {
-      typeBadge = `<span class="type-pill type-income"><i class="fa-solid fa-graduation-cap"></i> Income</span>`;
+      typeBadge = `<span class="type-pill type-income"><i class="fa-solid fa-graduation-cap"></i> ${dict.typeIncome}</span>`;
       personTag = getPersonTag(t.person);
-      splitDesc = `<strong>50/50:</strong> ${curr}${(amt / 2).toFixed(2)} each`;
+      splitDesc = lang === 'ar' ? `<strong>50/50:</strong> ${(amt / 2).toFixed(2)} ${curr} لكل طرف` : `<strong>50/50:</strong> ${curr}${(amt / 2).toFixed(2)} each`;
     } else if (t.type === 'EXPENSE') {
-      typeBadge = `<span class="type-pill type-expense"><i class="fa-solid fa-receipt"></i> Expense</span>`;
+      typeBadge = `<span class="type-pill type-expense"><i class="fa-solid fa-receipt"></i> ${dict.typeExpense}</span>`;
       personTag = getPersonTag(t.person);
-      splitDesc = `<strong>50/50:</strong> ${curr}${(amt / 2).toFixed(2)} shared`;
+      splitDesc = lang === 'ar' ? `<strong>50/50:</strong> ${(amt / 2).toFixed(2)} ${curr} مشاركة` : `<strong>50/50:</strong> ${curr}${(amt / 2).toFixed(2)} shared`;
     } else if (t.type === 'DRAW') {
-      typeBadge = `<span class="type-pill type-draw"><i class="fa-solid fa-hand-holding-dollar"></i> Draw</span>`;
+      typeBadge = `<span class="type-pill type-draw"><i class="fa-solid fa-hand-holding-dollar"></i> ${dict.typeDraw}</span>`;
       personTag = getPersonTag(t.person);
-      splitDesc = `Drawn from ${t.source === 'POOL' ? 'Shared Pool' : t.source === 'TEACHER' ? tName : bName}`;
+      const srcName = t.source === 'POOL' ? (lang === 'ar' ? 'الخزينة المشتركة' : 'Shared Pool') : t.source === 'TEACHER' ? tName : bName;
+      splitDesc = lang === 'ar' ? `مسحوبة من ${srcName}` : `Drawn from ${srcName}`;
     }
 
     return `
@@ -358,11 +582,11 @@ function renderLedgerTable() {
           <div style="font-size: 0.78rem; color: var(--text-muted);">${escapeHtml(t.category || t.type)} ${t.note ? '&bull; ' + escapeHtml(t.note) : ''}</div>
         </td>
         <td>${typeBadge}</td>
-        <td style="font-weight: 800; font-size: 1rem;">${curr}${amt}</td>
+        <td style="font-weight: 800; font-size: 1rem;">${amt} ${curr}</td>
         <td>${personTag}</td>
         <td style="font-size: 0.85rem;">${splitDesc}</td>
         <td>
-          <button class="action-delete-btn" onclick="deleteTransaction('${t.id}')" title="Delete Transaction">
+          <button class="action-delete-btn" onclick="deleteTransaction('${t.id}')" title="مسح المعاملة">
             <i class="fa-solid fa-trash-can"></i>
           </button>
         </td>
@@ -374,13 +598,14 @@ function renderLedgerTable() {
 function getPersonTag(person) {
   const tName = state.settings.teacherName;
   const bName = state.settings.brotherName;
+  const lang = state.settings.lang || 'ar';
 
   if (person === 'TEACHER') {
     return `<span class="person-tag tag-teacher"><i class="fa-solid fa-user"></i> ${escapeHtml(tName)}</span>`;
   } else if (person === 'BROTHER') {
     return `<span class="person-tag tag-brother"><i class="fa-solid fa-user-gear"></i> ${escapeHtml(bName)}</span>`;
   } else {
-    return `<span class="person-tag tag-pool"><i class="fa-solid fa-vault"></i> Shared Cash Pool</span>`;
+    return `<span class="person-tag tag-pool"><i class="fa-solid fa-vault"></i> ${lang === 'ar' ? 'الخزينة المشتركة' : 'Shared Pool'}</span>`;
   }
 }
 
@@ -401,6 +626,13 @@ function bindEvents() {
   document.getElementById('typeFilter').addEventListener('change', (e) => {
     state.filterType = e.target.value;
     renderLedgerTable();
+  });
+
+  // Language Toggle
+  document.getElementById('langToggleBtn').addEventListener('click', () => {
+    state.settings.lang = state.settings.lang === 'ar' ? 'en' : 'ar';
+    saveSettings();
+    render();
   });
 
   // Theme Toggle
@@ -453,7 +685,6 @@ function bindEvents() {
 function openModal(id) {
   const modal = document.getElementById(id);
   if (modal) {
-    // Set default date to today or current month date
     const today = new Date().toISOString().split('T')[0];
     modal.querySelectorAll('input[type="date"]').forEach(inp => {
       if (!inp.value) inp.value = today;
@@ -485,7 +716,7 @@ function handleAddIncome(e) {
     title,
     amount,
     person,
-    category: 'Lecture Income',
+    category: 'إيراد حصة',
     note: ''
   };
 
@@ -544,18 +775,19 @@ function handleAddDraw(e) {
 
   const personName = person === 'TEACHER' ? state.settings.teacherName : state.settings.brotherName;
   const month = date.substring(0, 7);
+  const lang = state.settings.lang || 'ar';
 
   const newTx = {
     id: 'tx-' + Date.now(),
     date,
     month,
     type: 'DRAW',
-    title: `Cash Draw by ${personName}`,
+    title: lang === 'ar' ? `مسحوبات شخصية (${personName})` : `Cash Draw by ${personName}`,
     amount,
     person,
     source,
     category: 'Personal Draw',
-    note: note || 'Cash advance'
+    note: note || ''
   };
 
   state.transactions.push(newTx);
@@ -570,9 +802,9 @@ function handleAddDraw(e) {
 
 function handleSaveSettings(e) {
   e.preventDefault();
-  state.settings.teacherName = document.getElementById('cfgTeacherName').value.trim() || 'Teacher';
-  state.settings.brotherName = document.getElementById('cfgBrotherName').value.trim() || 'Assistant Brother';
-  state.settings.currency = document.getElementById('cfgCurrency').value.trim() || '$';
+  state.settings.teacherName = document.getElementById('cfgTeacherName').value.trim() || 'الأستاذ';
+  state.settings.brotherName = document.getElementById('cfgBrotherName').value.trim() || 'يوسف';
+  state.settings.currency = document.getElementById('cfgCurrency').value.trim() || 'ج.م';
 
   saveSettings();
   closeModal('settingsModal');
@@ -580,7 +812,9 @@ function handleSaveSettings(e) {
 }
 
 window.deleteTransaction = function(id) {
-  if (confirm('Are you sure you want to delete this transaction?')) {
+  const lang = state.settings.lang || 'ar';
+  const confirmMsg = lang === 'ar' ? 'هل أنت تأكد من حذف هذه المعاملة؟' : 'Are you sure you want to delete this transaction?';
+  if (confirm(confirmMsg)) {
     state.transactions = state.transactions.filter(t => t.id !== id);
     saveTransactions();
     render();
@@ -588,7 +822,9 @@ window.deleteTransaction = function(id) {
 };
 
 function handleResetMonth() {
-  if (confirm(`Are you sure you want to clear all transactions for ${state.currentMonth}?`)) {
+  const lang = state.settings.lang || 'ar';
+  const confirmMsg = lang === 'ar' ? `هل أنت متاكد من مسح جميع معاملات شهر ${state.currentMonth}؟` : `Are you sure you want to clear all transactions for ${state.currentMonth}?`;
+  if (confirm(confirmMsg)) {
     state.transactions = state.transactions.filter(t => t.month !== state.currentMonth);
     saveTransactions();
     render();
@@ -598,11 +834,11 @@ function handleResetMonth() {
 function exportToCSV() {
   const monthTx = state.transactions.filter(t => t.month === state.currentMonth);
   if (monthTx.length === 0) {
-    alert('No transactions to export for this month.');
+    alert(state.settings.lang === 'ar' ? 'لا توجد معاملات للتصدير هذا الشهر.' : 'No transactions to export for this month.');
     return;
   }
 
-  let csvContent = 'data:text/csv;charset=utf-8,Date,Type,Title,Category,Amount,Paid/Collected By,Note\n';
+  let csvContent = '\uFEFFDate,Type,Title,Category,Amount,Paid/Collected By,Note\n';
   monthTx.forEach(t => {
     const row = [
       t.date,
@@ -616,10 +852,10 @@ function exportToCSV() {
     csvContent += row + '\n';
   });
 
-  const encodedUri = encodeURI(csvContent);
+  const encodedUri = encodeURI('data:text/csv;charset=utf-8,' + csvContent);
   const link = document.createElement('a');
   link.setAttribute('href', encodedUri);
-  link.setAttribute('download', `EduLedger_Settlement_${state.currentMonth}.csv`);
+  link.setAttribute('download', `EduLedger_${state.currentMonth}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);

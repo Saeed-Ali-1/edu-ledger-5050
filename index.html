@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lecture Finance & Settlement Manager</title>
+  <title>EduLedger - دفتر الحصص والتصفية الشهرية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -19,19 +19,22 @@
           <i class="fa-solid fa-scale-balanced"></i>
         </div>
         <div>
-          <h1>EduLedger <span class="badge badge-5050">50/50 Split</span></h1>
-          <p class="subtitle">Teacher & Assistant Revenue & Expense Tracker</p>
+          <h1>EduLedger <span class="badge badge-5050" data-i18n="splitBadge">مناصفة 50/50</span></h1>
+          <p class="subtitle" data-i18n="subtitle">حاسبة إيرادات الحصص والمصروفات بين الأستاذ ويوسف</p>
         </div>
       </div>
       <div class="header-actions">
+        <button id="langToggleBtn" class="btn btn-outline btn-sm" title="تغيير اللغة / Switch Language">
+          <i class="fa-solid fa-globe"></i> <span id="langLabel">English</span>
+        </button>
         <div class="month-selector-wrapper">
           <i class="fa-regular fa-calendar-days"></i>
           <input type="month" id="monthPicker" class="month-picker">
         </div>
-        <button id="settingsBtn" class="icon-btn" title="Settings & Names">
+        <button id="settingsBtn" class="icon-btn" title="الإعدادات والأشكال">
           <i class="fa-solid fa-gear"></i>
         </button>
-        <button id="themeToggleBtn" class="icon-btn" title="Toggle Light/Dark Theme">
+        <button id="themeToggleBtn" class="icon-btn" title="تغيير المظهر">
           <i class="fa-solid fa-moon"></i>
         </button>
       </div>
@@ -43,14 +46,14 @@
       <section class="settlement-hero" id="settlementHero">
         <div class="hero-content">
           <div class="hero-header">
-            <span class="hero-badge"><i class="fa-solid fa-calculator"></i> End of Month Settlement</span>
-            <span id="settlementMonthLabel" class="hero-month">October 2026</span>
+            <span class="hero-badge"><i class="fa-solid fa-calculator"></i> <span data-i18n="settlementTitle">التصفية الشهرية</span></span>
+            <span id="settlementMonthLabel" class="hero-month">أكتوبر 2026</span>
           </div>
           <div id="settlementStatusText" class="settlement-status">
-            Calculating balance...
+            جاري حساب التصفية...
           </div>
-          <p id="settlementSubtext" class="settlement-subtext">
-            Based on 50/50 revenue split, out-of-pocket shared expenses, and individual cash draws.
+          <p id="settlementSubtext" class="settlement-subtext" data-i18n="settlementSubtext">
+            بناءً على تقسيم الإيراد 50/50 والمصروفات المشتركة والمسحوبات الشخصية.
           </p>
         </div>
 
@@ -60,55 +63,55 @@
             <div class="person-header">
               <span class="person-avatar teacher-avatar"><i class="fa-solid fa-chalkboard-user"></i></span>
               <div>
-                <h3 id="teacherNameDisplay">Teacher</h3>
-                <span class="role-tag">Primary Educator</span>
+                <h3 id="teacherNameDisplay">الأستاذ</h3>
+                <span class="role-tag" data-i18n="teacherRole">المعلم الرئيسي</span>
               </div>
             </div>
             <div class="person-net">
-              <span class="net-label">Net Entitlement</span>
-              <div id="teacherNetVal" class="net-value">$0.00</div>
+              <span class="net-label" data-i18n="netEntitlement">الصافي المستحق</span>
+              <div id="teacherNetVal" class="net-value">0.00 ج.م</div>
             </div>
             <div class="person-breakdown">
               <div class="breakdown-row">
-                <span>Earned Share (50%):</span>
-                <strong id="teacherEarnedVal">$0.00</strong>
+                <span data-i18n="earnedShare">حصة الإيراد (50%):</span>
+                <strong id="teacherEarnedVal">0.00 ج.م</strong>
               </div>
               <div class="breakdown-row">
-                <span>Expense Credit:</span>
-                <strong id="teacherReimburseVal" class="text-success">+$0.00</strong>
+                <span data-i18n="expenseCredit">مستحق المصروفات:</span>
+                <strong id="teacherReimburseVal" class="text-success">+0.00 ج.م</strong>
               </div>
               <div class="breakdown-row">
-                <span>Cash Held/Drawn:</span>
-                <strong id="teacherDrawnVal" class="text-danger">-$0.00</strong>
+                <span data-i18n="cashDrawn">المقبوض/المسحوب:</span>
+                <strong id="teacherDrawnVal" class="text-danger">-0.00 ج.م</strong>
               </div>
             </div>
           </div>
 
-          <!-- Brother Net Summary -->
+          <!-- Youssef Net Summary -->
           <div class="person-card brother-card">
             <div class="person-header">
               <span class="person-avatar brother-avatar"><i class="fa-solid fa-user-gear"></i></span>
               <div>
-                <h3 id="brotherNameDisplay">Assistant (Brother)</h3>
-                <span class="role-tag">Assistant</span>
+                <h3 id="brotherNameDisplay">يوسف</h3>
+                <span class="role-tag" data-i18n="brotherRole">يوسف</span>
               </div>
             </div>
             <div class="person-net">
-              <span class="net-label">Net Entitlement</span>
-              <div id="brotherNetVal" class="net-value">$0.00</div>
+              <span class="net-label" data-i18n="netEntitlement">الصافي المستحق</span>
+              <div id="brotherNetVal" class="net-value">0.00 ج.م</div>
             </div>
             <div class="person-breakdown">
               <div class="breakdown-row">
-                <span>Earned Share (50%):</span>
-                <strong id="brotherEarnedVal">$0.00</strong>
+                <span data-i18n="earnedShare">حصة الإيراد (50%):</span>
+                <strong id="brotherEarnedVal">0.00 ج.م</strong>
               </div>
               <div class="breakdown-row">
-                <span>Expense Credit:</span>
-                <strong id="brotherReimburseVal" class="text-success">+$0.00</strong>
+                <span data-i18n="expenseCredit">مستحق المصروفات:</span>
+                <strong id="brotherReimburseVal" class="text-success">+0.00 ج.م</strong>
               </div>
               <div class="breakdown-row">
-                <span>Cash Held/Drawn:</span>
-                <strong id="brotherDrawnVal" class="text-danger">-$0.00</strong>
+                <span data-i18n="cashDrawn">المقبوض/المسحوب:</span>
+                <strong id="brotherDrawnVal" class="text-danger">-0.00 ج.م</strong>
               </div>
             </div>
           </div>
@@ -120,36 +123,36 @@
         <div class="kpi-card revenue-kpi">
           <div class="kpi-icon"><i class="fa-solid fa-graduation-cap"></i></div>
           <div class="kpi-details">
-            <span class="kpi-title">Total Lectures Revenue</span>
-            <h2 id="kpiTotalRevenue">$0.00</h2>
-            <span id="kpiLectureCount" class="kpi-sub">0 lectures logged</span>
+            <span class="kpi-title" data-i18n="kpiTotalRevenue">إجمالي إيراد الحصص</span>
+            <h2 id="kpiTotalRevenue">0.00 ج.م</h2>
+            <span id="kpiLectureCount" class="kpi-sub">0 حصة مسجلة</span>
           </div>
         </div>
 
         <div class="kpi-card expense-kpi">
           <div class="kpi-icon"><i class="fa-solid fa-receipt"></i></div>
           <div class="kpi-details">
-            <span class="kpi-title">Shared Expenses</span>
-            <h2 id="kpiTotalExpenses">$0.00</h2>
-            <span id="kpiExpenseSub" class="kpi-sub">50/50 split cost</span>
+            <span class="kpi-title" data-i18n="kpiTotalExpenses">المصروفات المشتركة</span>
+            <h2 id="kpiTotalExpenses">0.00 ج.م</h2>
+            <span id="kpiExpenseSub" class="kpi-sub">تكلفة مقسمة 50/50</span>
           </div>
         </div>
 
         <div class="kpi-card draws-kpi">
           <div class="kpi-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
           <div class="kpi-details">
-            <span class="kpi-title">Total Cash Drawn</span>
-            <h2 id="kpiTotalDraws">$0.00</h2>
-            <span id="kpiDrawsSub" class="kpi-sub">Teacher + Brother advances</span>
+            <span class="kpi-title" data-i18n="kpiTotalDraws">إجمالي المسحوبات</span>
+            <h2 id="kpiTotalDraws">0.00 ج.م</h2>
+            <span id="kpiDrawsSub" class="kpi-sub">مسحوبات الأستاذ ويوسف</span>
           </div>
         </div>
 
         <div class="kpi-card vault-kpi">
           <div class="kpi-icon"><i class="fa-solid fa-vault"></i></div>
           <div class="kpi-details">
-            <span class="kpi-title">Shared Cash Pool</span>
-            <h2 id="kpiPoolCash">$0.00</h2>
-            <span class="kpi-sub">Uncollected / Cash in Vault</span>
+            <span class="kpi-title" data-i18n="kpiPoolCash">الخزينة المشتركة</span>
+            <h2 id="kpiPoolCash">0.00 ج.م</h2>
+            <span class="kpi-sub" data-i18n="poolSub">المتبقي بالخزنة المباشرة</span>
           </div>
         </div>
       </section>
@@ -158,22 +161,22 @@
       <section class="actions-section">
         <div class="action-buttons-group">
           <button class="btn btn-primary" id="addIncomeBtn">
-            <i class="fa-solid fa-plus-circle"></i> Log Lecture Income
+            <i class="fa-solid fa-plus-circle"></i> <span data-i18n="btnLogIncome">تسجيل إيراد حصة</span>
           </button>
           <button class="btn btn-warning" id="addExpenseBtn">
-            <i class="fa-solid fa-receipt"></i> Log Shared Expense
+            <i class="fa-solid fa-receipt"></i> <span data-i18n="btnLogExpense">تسجيل مصروف مشترك</span>
           </button>
           <button class="btn btn-purple" id="addDrawBtn">
-            <i class="fa-solid fa-hand-holding-dollar"></i> Log Cash Draw
+            <i class="fa-solid fa-hand-holding-dollar"></i> <span data-i18n="btnLogDraw">تسجيل مسحوبات شخصية</span>
           </button>
         </div>
 
         <div class="secondary-actions">
           <button class="btn btn-outline" id="exportDataBtn">
-            <i class="fa-solid fa-file-export"></i> Export CSV
+            <i class="fa-solid fa-file-export"></i> <span data-i18n="btnExport">تصدير ملف Excel/CSV</span>
           </button>
           <button class="btn btn-outline-danger" id="resetDataBtn">
-            <i class="fa-solid fa-rotate-left"></i> Reset Month
+            <i class="fa-solid fa-rotate-left"></i> <span data-i18n="btnResetMonth">إعادة ضبط الشهر</span>
           </button>
         </div>
       </section>
@@ -182,19 +185,19 @@
       <section class="ledger-section">
         <div class="ledger-header">
           <div class="ledger-title-group">
-            <h2>Transaction History</h2>
-            <span id="transactionCountBadge" class="count-badge">0 items</span>
+            <h2 data-i18n="ledgerTitle">سجل المعاملات اليومية</h2>
+            <span id="transactionCountBadge" class="count-badge">0 معاملة</span>
           </div>
           <div class="table-filters">
             <div class="search-box">
               <i class="fa-solid fa-magnifying-glass"></i>
-              <input type="text" id="searchInput" placeholder="Search entries...">
+              <input type="text" id="searchInput" placeholder="بحث في المعاملات...">
             </div>
             <select id="typeFilter" class="select-filter">
-              <option value="ALL">All Types</option>
-              <option value="INCOME">Lecture Income</option>
-              <option value="EXPENSE">Shared Expense</option>
-              <option value="DRAW">Personal Draw</option>
+              <option value="ALL" data-i18n="filterAll">كل الأنواع</option>
+              <option value="INCOME" data-i18n="filterIncome">إيراد حصة</option>
+              <option value="EXPENSE" data-i18n="filterExpense">مصروف مشترك</option>
+              <option value="DRAW" data-i18n="filterDraw">مسحوبات شخصية</option>
             </select>
           </div>
         </div>
@@ -203,23 +206,23 @@
           <table class="ledger-table" id="ledgerTable">
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Category / Description</th>
-                <th>Type</th>
-                <th>Total Amount</th>
-                <th>Paid / Collected By</th>
-                <th>Split / Allocation</th>
-                <th>Actions</th>
+                <th data-i18n="thDate">التاريخ</th>
+                <th data-i18n="thTitle">البيان / الوصف</th>
+                <th data-i18n="thType">النوع</th>
+                <th data-i18n="thAmount">المبلغ الكلي</th>
+                <th data-i18n="thPerson">الدافع / المستلم</th>
+                <th data-i18n="thSplit">التقسيم</th>
+                <th data-i18n="thActions">إجراءات</th>
               </tr>
             </thead>
             <tbody id="ledgerTableBody">
-              <!-- Rendered dynamically via JavaScript -->
+              <!-- Rendered dynamically -->
             </tbody>
           </table>
           <div id="emptyState" class="empty-state hidden">
             <i class="fa-solid fa-folder-open empty-icon"></i>
-            <h3>No Transactions Found</h3>
-            <p>Add a lecture income, shared expense, or cash draw to start calculating balances.</p>
+            <h3 data-i18n="emptyTitle">لا توجد معاملات مسجلة</h3>
+            <p data-i18n="emptySub">أضف إيراد حصة أو مصروف مواصلات أو مسحوبات للبدء في حساب التصفية.</p>
           </div>
         </div>
       </section>
@@ -227,7 +230,7 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <p>EduLedger 50/50 • Designed for seamless monthly settlement between Teacher & Assistant</p>
+      <p data-i18n="footerText">EduLedger 50/50 • نظام التصفية المالية وحساب الأرباح بين الأستاذ ويوسف</p>
     </footer>
   </div>
 
@@ -235,37 +238,37 @@
   <div class="modal-overlay hidden" id="incomeModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-graduation-cap text-success"></i> Log Lecture Income</h3>
+        <h3><i class="fa-solid fa-graduation-cap text-success"></i> <span data-i18n="modalIncomeTitle">تسجيل إيراد حصة</span></h3>
         <button class="close-btn" data-close="incomeModal">&times;</button>
       </div>
       <form id="incomeForm">
         <div class="form-group">
-          <label for="incDate">Date</label>
+          <label for="incDate" data-i18n="lblDate">التاريخ</label>
           <input type="date" id="incDate" required>
         </div>
         <div class="form-group">
-          <label for="incTitle">Lecture Title / Student Group</label>
-          <input type="text" id="incTitle" placeholder="e.g. Physics Grade 12 - Group A" required>
+          <label for="incTitle" data-i18n="lblLectureTitle">اسم الحصة / المجموعة</label>
+          <input type="text" id="incTitle" placeholder="مثال: فيزياء الصف الثالث - سنتر الفتح" required>
         </div>
         <div class="form-group">
-          <label for="incAmount">Total Revenue Received (<span class="currSym">$</span>)</label>
-          <input type="number" id="incAmount" step="0.01" min="0.01" placeholder="e.g. 200" required>
+          <label for="incAmount"><span data-i18n="lblAmount">إجمالي المبلغ المستلم</span> (<span class="currSym">ج.م</span>)</label>
+          <input type="number" id="incAmount" step="0.01" min="0.01" placeholder="مثال: 500" required>
         </div>
         <div class="form-group">
-          <label for="incCollector">Who Collected / Holds the Cash?</label>
+          <label for="incCollector" data-i18n="lblCollector">من استلم / يحتفظ بالكاش؟</label>
           <select id="incCollector" required>
-            <option value="TEACHER">Teacher (Holds cash)</option>
-            <option value="BROTHER">Assistant Brother (Holds cash)</option>
-            <option value="POOL">Shared Cash Box / Vault</option>
+            <option value="TEACHER" id="optIncTeacher">الأستاذ (احتفظ بالكاش)</option>
+            <option value="BROTHER" id="optIncBrother">يوسف (احتفظ بالكاش)</option>
+            <option value="POOL" data-i18n="optPool">الخزينة المشتركة</option>
           </select>
         </div>
         <div class="split-info-box">
           <i class="fa-solid fa-circle-info"></i>
-          This amount will be split <strong>50% for Teacher</strong> and <strong>50% for Assistant</strong> automatically.
+          <span data-i18n="infoSplitIncome">يتم تقسيم الإيراد تلقائياً <strong>50% للأستاذ</strong> و <strong>50% ليوسف</strong>.</span>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" data-close="incomeModal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Income</button>
+          <button type="button" class="btn btn-outline" data-close="incomeModal" data-i18n="btnCancel">إلغاء</button>
+          <button type="submit" class="btn btn-primary" data-i18n="btnSave">حفظ الإيراد</button>
         </div>
       </form>
     </div>
@@ -275,47 +278,47 @@
   <div class="modal-overlay hidden" id="expenseModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-receipt text-warning"></i> Log Shared Work Expense</h3>
+        <h3><i class="fa-solid fa-receipt text-warning"></i> <span data-i18n="modalExpenseTitle">تسجيل مصروف مشترك (مواصلات / ورق)</span></h3>
         <button class="close-btn" data-close="expenseModal">&times;</button>
       </div>
       <form id="expenseForm">
         <div class="form-group">
-          <label for="expDate">Date</label>
+          <label for="expDate" data-i18n="lblDate">التاريخ</label>
           <input type="date" id="expDate" required>
         </div>
         <div class="form-group">
-          <label for="expTitle">Expense Description</label>
-          <input type="text" id="expTitle" placeholder="e.g. Taxi transportation to Center, Printouts" required>
+          <label for="expTitle" data-i18n="lblExpenseTitle">وصف المصروف</label>
+          <input type="text" id="expTitle" placeholder="مثال: تاكسي للمعهد، تصوير مذكرات" required>
         </div>
         <div class="form-group">
-          <label for="expCategory">Category</label>
+          <label for="expCategory" data-i18n="lblCategory">القسم</label>
           <select id="expCategory">
-            <option value="Transportation">Transportation / Taxi</option>
-            <option value="Printing & Materials">Printing & Materials</option>
-            <option value="Snacks & Coffee">Snacks & Refreshments</option>
-            <option value="Hall Rental">Hall Rental / Center Fee</option>
-            <option value="Other">Other Work Expense</option>
+            <option value="Transportation" data-i18n="catTransport">مواصلات / تاكسي / بنزين</option>
+            <option value="Printing & Materials" data-i18n="catPrinting">طباعة وتصوير مذكرات</option>
+            <option value="Snacks & Coffee" data-i18n="catSnacks">مشروبات ومأكولات</option>
+            <option value="Hall Rental" data-i18n="catHall">إيجار قاعة / نسبة السنتر</option>
+            <option value="Other" data-i18n="catOther">مصروفات عمل أخرى</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="expAmount">Total Amount Spent (<span class="currSym">$</span>)</label>
-          <input type="number" id="expAmount" step="0.01" min="0.01" placeholder="e.g. 30" required>
+          <label for="expAmount"><span data-i18n="lblAmountSpent">المبلغ المدفوع</span> (<span class="currSym">ج.م</span>)</label>
+          <input type="number" id="expAmount" step="0.01" min="0.01" placeholder="مثال: 50" required>
         </div>
         <div class="form-group">
-          <label for="expPayer">Who Paid Out-of-Pocket?</label>
+          <label for="expPayer" data-i18n="lblPayer">من دفع من جيبه الشخصي؟</label>
           <select id="expPayer" required>
-            <option value="TEACHER">Teacher Paid</option>
-            <option value="BROTHER">Assistant Brother Paid</option>
-            <option value="POOL">Paid from Shared Cash Pool</option>
+            <option value="TEACHER" id="optExpTeacher">الأستاذ دفع</option>
+            <option value="BROTHER" id="optExpBrother">يوسف دفع</option>
+            <option value="POOL" data-i18n="optExpPool">دُفع من الخزينة المشتركة</option>
           </select>
         </div>
         <div class="split-info-box warning">
           <i class="fa-solid fa-hand-holding-hand"></i>
-          Shared expenses are divided <strong>50/50</strong>. The person who paid out-of-pocket gets credited 50% from the other's earnings.
+          <span data-i18n="infoSplitExpense">المصروفات مقسمة <strong>50/50</strong>. يعوض من دفع من جيبه بنسبة 50% من حصة الطرف الآخر.</span>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" data-close="expenseModal">Cancel</button>
-          <button type="submit" class="btn btn-warning">Save Expense</button>
+          <button type="button" class="btn btn-outline" data-close="expenseModal" data-i18n="btnCancel">إلغاء</button>
+          <button type="submit" class="btn btn-warning" data-i18n="btnSave">حفظ المصروف</button>
         </div>
       </form>
     </div>
@@ -325,40 +328,40 @@
   <div class="modal-overlay hidden" id="drawModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-hand-holding-dollar text-purple"></i> Log Personal Cash Draw</h3>
+        <h3><i class="fa-solid fa-hand-holding-dollar text-purple"></i> <span data-i18n="modalDrawTitle">تسجيل مسحوبات شخصية</span></h3>
         <button class="close-btn" data-close="drawModal">&times;</button>
       </div>
       <form id="drawForm">
         <div class="form-group">
-          <label for="drawDate">Date</label>
+          <label for="drawDate" data-i18n="lblDate">التاريخ</label>
           <input type="date" id="drawDate" required>
         </div>
         <div class="form-group">
-          <label for="drawPerson">Who is taking the cash draw?</label>
+          <label for="drawPerson" data-i18n="lblDrawPerson">من قام بالسحب الشخصي؟</label>
           <select id="drawPerson" required>
-            <option value="TEACHER">Teacher</option>
-            <option value="BROTHER">Assistant Brother</option>
+            <option value="TEACHER" id="optDrawTeacher">الأستاذ</option>
+            <option value="BROTHER" id="optDrawBrother">يوسف</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="drawAmount">Amount Taken (<span class="currSym">$</span>)</label>
-          <input type="number" id="drawAmount" step="0.01" min="0.01" placeholder="e.g. 50" required>
+          <label for="drawAmount"><span data-i18n="lblDrawAmount">المبلغ المسحوب</span> (<span class="currSym">ج.م</span>)</label>
+          <input type="number" id="drawAmount" step="0.01" min="0.01" placeholder="مثال: 100" required>
         </div>
         <div class="form-group">
-          <label for="drawSource">Source of Cash</label>
+          <label for="drawSource" data-i18n="lblDrawSource">مصدر المبلغ المسحوب</label>
           <select id="drawSource" required>
-            <option value="POOL">From Shared Cash Pool / Revenue</option>
-            <option value="TEACHER">Direct from Teacher's hand</option>
-            <option value="BROTHER">Direct from Brother's hand</option>
+            <option value="POOL" data-i18n="optDrawPool">من الخزينة المشتركة / الإيراد</option>
+            <option value="TEACHER" id="optDrawFromTeacher">من يد الأستاذ مباشرة</option>
+            <option value="BROTHER" id="optDrawFromBrother">من يد يوسف مباشرة</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="drawNote">Note / Reason (Optional)</label>
-          <input type="text" id="drawNote" placeholder="e.g. Personal advance for groceries">
+          <label for="drawNote" data-i18n="lblDrawNote">ملاحظة / السبب (اختياري)</label>
+          <input type="text" id="drawNote" placeholder="مثال: سلفة شخصية">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" data-close="drawModal">Cancel</button>
-          <button type="submit" class="btn btn-purple">Save Draw</button>
+          <button type="button" class="btn btn-outline" data-close="drawModal" data-i18n="btnCancel">إلغاء</button>
+          <button type="submit" class="btn btn-purple" data-i18n="btnSave">حفظ المسحوبات</button>
         </div>
       </form>
     </div>
@@ -368,25 +371,25 @@
   <div class="modal-overlay hidden" id="settingsModal">
     <div class="modal-card">
       <div class="modal-header">
-        <h3><i class="fa-solid fa-sliders"></i> App Settings</h3>
+        <h3><i class="fa-solid fa-sliders"></i> <span data-i18n="modalSettingsTitle">إعدادات التطبيق والأسماء</span></h3>
         <button class="close-btn" data-close="settingsModal">&times;</button>
       </div>
       <form id="settingsForm">
         <div class="form-group">
-          <label for="cfgTeacherName">Teacher Display Name</label>
-          <input type="text" id="cfgTeacherName" value="Teacher" required>
+          <label for="cfgTeacherName" data-i18n="lblTeacherName">اسم المعلم</label>
+          <input type="text" id="cfgTeacherName" value="الأستاذ" required>
         </div>
         <div class="form-group">
-          <label for="cfgBrotherName">Assistant Brother Display Name</label>
-          <input type="text" id="cfgBrotherName" value="Assistant Brother" required>
+          <label for="cfgBrotherName" data-i18n="lblBrotherName">اسم الشريك (يوسف)</label>
+          <input type="text" id="cfgBrotherName" value="يوسف" required>
         </div>
         <div class="form-group">
-          <label for="cfgCurrency">Currency Symbol</label>
-          <input type="text" id="cfgCurrency" value="$" placeholder="e.g. $, €, EGP, SAR, ₹" required>
+          <label for="cfgCurrency" data-i18n="lblCurrency">رمز العملة</label>
+          <input type="text" id="cfgCurrency" value="ج.م" placeholder="مثال: ج.م، $، ر.س، د.إ" required>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline" data-close="settingsModal">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Settings</button>
+          <button type="button" class="btn btn-outline" data-close="settingsModal" data-i18n="btnCancel">إلغاء</button>
+          <button type="submit" class="btn btn-primary" data-i18n="btnSaveSettings">حفظ الإعدادات</button>
         </div>
       </form>
     </div>
