@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>EduLedger - دفتر الحصص والتصفية الشهرية</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,7 +157,7 @@
         </div>
       </section>
 
-      <!-- Action Buttons & Quick Logging -->
+      <!-- Action Buttons & Quick Logging (Desktop View) -->
       <section class="actions-section">
         <div class="action-buttons-group">
           <button class="btn btn-primary" id="addIncomeBtn">
@@ -227,6 +227,21 @@
         </div>
       </section>
     </main>
+
+    <!-- Sticky Bottom Action Bar for Quick Mobile Thumb Tapping -->
+    <nav class="mobile-sticky-bar">
+      <div class="action-buttons-group">
+        <button class="btn btn-primary" id="addIncomeBtnMobile">
+          <i class="fa-solid fa-plus-circle"></i> <span data-i18n="btnLogIncome">إيراد حصة</span>
+        </button>
+        <button class="btn btn-warning" id="addExpenseBtnMobile">
+          <i class="fa-solid fa-receipt"></i> <span data-i18n="btnLogExpense">مصروف</span>
+        </button>
+        <button class="btn btn-purple" id="addDrawBtnMobile">
+          <i class="fa-solid fa-hand-holding-dollar"></i> <span data-i18n="btnLogDraw">مسحوبات</span>
+        </button>
+      </div>
+    </nav>
 
     <!-- Footer -->
     <footer class="app-footer">

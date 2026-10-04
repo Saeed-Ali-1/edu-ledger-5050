@@ -1,6 +1,6 @@
 /**
  * EduLedger 50/50 - Teacher & Youssef Ledger App
- * Accounting Engine, i18n Localization (Arabic & English), UI Controller
+ * Accounting Engine, i18n Localization (Arabic & English), UI Controller & Mobile Enhancements
  */
 
 // Internationalization Dictionary (Arabic & English)
@@ -21,9 +21,9 @@ const I18N = {
     kpiTotalDraws: 'إجمالي المسحوبات',
     kpiPoolCash: 'الخزينة المشتركة',
     poolSub: 'المتبقي بالخزنة المباشرة',
-    btnLogIncome: 'تسجيل إيراد حصة',
-    btnLogExpense: 'تسجيل مصروف مشترك',
-    btnLogDraw: 'تسجيل مسحوبات شخصية',
+    btnLogIncome: 'إيراد حصة',
+    btnLogExpense: 'مصروف مشترك',
+    btnLogDraw: 'مسحوبات شخصية',
     btnExport: 'تصدير ملف Excel/CSV',
     btnResetMonth: 'إعادة ضبط الشهر',
     ledgerTitle: 'سجل المعاملات اليومية',
@@ -103,9 +103,9 @@ const I18N = {
     kpiTotalDraws: 'Total Cash Drawn',
     kpiPoolCash: 'Shared Cash Pool',
     poolSub: 'Vault / Uncollected Cash',
-    btnLogIncome: 'Log Lecture Income',
-    btnLogExpense: 'Log Shared Expense',
-    btnLogDraw: 'Log Cash Draw',
+    btnLogIncome: 'Lecture Income',
+    btnLogExpense: 'Shared Expense',
+    btnLogDraw: 'Cash Draw',
     btnExport: 'Export CSV',
     btnResetMonth: 'Reset Month',
     ledgerTitle: 'Transaction History',
@@ -193,7 +193,7 @@ const DEFAULT_DEMO_DATA = [
     type: 'INCOME',
     title: 'فيزياء الثانوية العامة - مراجعة الفصل الثالث',
     amount: 500,
-    person: 'TEACHER', // Teacher collected cash
+    person: 'TEACHER',
     category: 'إيراد حصة',
     note: 'استلم الأستاذ كاش السنتر'
   },
@@ -204,7 +204,7 @@ const DEFAULT_DEMO_DATA = [
     type: 'EXPENSE',
     title: 'تاكسي مواصلات السنتر ذهاب وإياد',
     amount: 40,
-    person: 'BROTHER', // Youssef paid out of pocket
+    person: 'BROTHER',
     category: 'Transportation',
     note: 'دفع يوسف من جيبه'
   },
@@ -215,7 +215,7 @@ const DEFAULT_DEMO_DATA = [
     type: 'INCOME',
     title: 'كيمياء عضوي - مجموعة المتفوقين',
     amount: 400,
-    person: 'POOL', // Money put into shared cash vault
+    person: 'POOL',
     category: 'إيراد حصة',
     note: 'وضعت في الخزينة المشتركة'
   },
@@ -226,7 +226,7 @@ const DEFAULT_DEMO_DATA = [
     type: 'EXPENSE',
     title: 'تصوير واختبارات المذكرات',
     amount: 30,
-    person: 'TEACHER', // Teacher paid out of pocket
+    person: 'TEACHER',
     category: 'Printing & Materials',
     note: 'دفع الأستاذ للمكتبة'
   },
@@ -237,7 +237,7 @@ const DEFAULT_DEMO_DATA = [
     type: 'DRAW',
     title: 'مسحوبات شخصية ليوسف',
     amount: 100,
-    person: 'BROTHER', // Youssef took draw
+    person: 'BROTHER',
     source: 'POOL',
     category: 'Personal Draw',
     note: 'مصروف شخصي'
@@ -275,7 +275,6 @@ function initStorage() {
     saveTransactions();
   }
 
-  // Apply saved theme
   if (state.settings.theme === 'light') {
     document.body.classList.remove('dark-theme');
     document.body.classList.add('light-theme');
@@ -347,23 +346,18 @@ function calculateAccounting(month) {
     }
   });
 
-  // 50/50 Revenue Earned Shares
   const teacherEarned = totalRevenue * 0.5;
   const brotherEarned = totalRevenue * 0.5;
 
-  // Shared Expenses Split
   const teacherExpCredit = (teacherExpensePaid - brotherExpensePaid) * 0.5;
   const brotherExpCredit = (brotherExpensePaid - teacherExpensePaid) * 0.5;
 
-  // Cash held or drawn
   const teacherCashHeld = teacherIncomeCollected + teacherDraws;
   const brotherCashHeld = brotherIncomeCollected + brotherDraws;
 
-  // Net Payouts / Entitlements
   const teacherNet = teacherEarned + teacherExpCredit - teacherCashHeld;
   const brotherNet = brotherEarned + brotherExpCredit - brotherCashHeld;
 
-  // Pool Cash Remaining
   const poolCash = poolIncomeCollected - poolExpensePaid - poolDraws;
 
   return {
@@ -418,7 +412,6 @@ function updateSettingsUI() {
   document.getElementById('teacherNameDisplay').textContent = tName;
   document.getElementById('brotherNameDisplay').textContent = bName;
 
-  // Update option labels in modals dynamically with names
   const lang = state.settings.lang || 'ar';
   if (lang === 'ar') {
     document.getElementById('optIncTeacher').textContent = `${tName} (احتفظ بالكاش)`;
@@ -449,13 +442,11 @@ function updateSummaryAndHero() {
   const lang = state.settings.lang || 'ar';
   const dict = I18N[lang];
 
-  // Month Format
   const [yr, mo] = state.currentMonth.split('-');
   const monthDate = new Date(parseInt(yr), parseInt(mo) - 1, 1);
   const monthName = monthDate.toLocaleString(lang === 'ar' ? 'ar-EG' : 'default', { month: 'long', year: 'numeric' });
   document.getElementById('settlementMonthLabel').textContent = monthName;
 
-  // KPI Grid
   document.getElementById('kpiTotalRevenue').textContent = `${acc.totalRevenue.toFixed(2)} ${curr}`;
   document.getElementById('kpiLectureCount').textContent = lang === 'ar' ? `${acc.lectureCount} حصة مسجلة` : `${acc.lectureCount} lectures logged`;
 
@@ -465,7 +456,6 @@ function updateSummaryAndHero() {
   document.getElementById('kpiTotalDraws').textContent = `${acc.totalDraws.toFixed(2)} ${curr}`;
   document.getElementById('kpiPoolCash').textContent = `${acc.poolCash.toFixed(2)} ${curr}`;
 
-  // Person Cards
   document.getElementById('teacherNetVal').textContent = `${acc.teacherNet.toFixed(2)} ${curr}`;
   document.getElementById('teacherNetVal').className = `net-value ${acc.teacherNet >= 0 ? 'text-success' : 'text-danger'}`;
   document.getElementById('teacherEarnedVal').textContent = `${acc.teacherEarned.toFixed(2)} ${curr}`;
@@ -478,7 +468,6 @@ function updateSummaryAndHero() {
   document.getElementById('brotherReimburseVal').textContent = `${acc.brotherExpCredit >= 0 ? '+' : ''}${acc.brotherExpCredit.toFixed(2)} ${curr}`;
   document.getElementById('brotherDrawnVal').textContent = `-${acc.brotherCashHeld.toFixed(2)} ${curr}`;
 
-  // Settlement Status Banner Logic
   const statusEl = document.getElementById('settlementStatusText');
   const subtextEl = document.getElementById('settlementSubtext');
 
@@ -611,13 +600,11 @@ function getPersonTag(person) {
 
 // Event Bindings
 function bindEvents() {
-  // Month Picker
   document.getElementById('monthPicker').addEventListener('change', (e) => {
     state.currentMonth = e.target.value;
     render();
   });
 
-  // Search & Type Filter
   document.getElementById('searchInput').addEventListener('input', (e) => {
     state.searchQuery = e.target.value;
     renderLedgerTable();
@@ -628,14 +615,12 @@ function bindEvents() {
     renderLedgerTable();
   });
 
-  // Language Toggle
   document.getElementById('langToggleBtn').addEventListener('click', () => {
     state.settings.lang = state.settings.lang === 'ar' ? 'en' : 'ar';
     saveSettings();
     render();
   });
 
-  // Theme Toggle
   document.getElementById('themeToggleBtn').addEventListener('click', () => {
     const isDark = document.body.classList.contains('dark-theme');
     if (isDark) {
@@ -652,10 +637,25 @@ function bindEvents() {
     saveSettings();
   });
 
-  // Modal Open Buttons
-  document.getElementById('addIncomeBtn').addEventListener('click', () => openModal('incomeModal'));
-  document.getElementById('addExpenseBtn').addEventListener('click', () => openModal('expenseModal'));
-  document.getElementById('addDrawBtn').addEventListener('click', () => openModal('drawModal'));
+  // Action Buttons (Desktop + Mobile Sticky Bar)
+  const incomeBtns = ['addIncomeBtn', 'addIncomeBtnMobile'];
+  incomeBtns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => openModal('incomeModal'));
+  });
+
+  const expenseBtns = ['addExpenseBtn', 'addExpenseBtnMobile'];
+  expenseBtns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => openModal('expenseModal'));
+  });
+
+  const drawBtns = ['addDrawBtn', 'addDrawBtnMobile'];
+  drawBtns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('click', () => openModal('drawModal'));
+  });
+
   document.getElementById('settingsBtn').addEventListener('click', () => {
     document.getElementById('cfgTeacherName').value = state.settings.teacherName;
     document.getElementById('cfgBrotherName').value = state.settings.brotherName;
@@ -663,7 +663,6 @@ function bindEvents() {
     openModal('settingsModal');
   });
 
-  // Modal Close Buttons
   document.querySelectorAll('[data-close]').forEach(btn => {
     btn.addEventListener('click', () => {
       const modalId = btn.getAttribute('data-close');
@@ -671,13 +670,11 @@ function bindEvents() {
     });
   });
 
-  // Form Submissions
   document.getElementById('incomeForm').addEventListener('submit', handleAddIncome);
   document.getElementById('expenseForm').addEventListener('submit', handleAddExpense);
   document.getElementById('drawForm').addEventListener('submit', handleAddDraw);
   document.getElementById('settingsForm').addEventListener('submit', handleSaveSettings);
 
-  // Secondary Actions
   document.getElementById('exportDataBtn').addEventListener('click', exportToCSV);
   document.getElementById('resetDataBtn').addEventListener('click', handleResetMonth);
 }
